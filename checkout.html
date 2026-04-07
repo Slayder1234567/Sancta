@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout — Sancta</title>
+<link rel="icon" type="image/jpeg" href="photos/logo.jpeg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { -webkit-font-smoothing: antialiased; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  color: #0b1425;
+  background: #faf9f7;
+  min-height: 100vh;
+}
+
+/* ─── LAYOUT ─── */
+.checkout-wrap {
+  display: grid;
+  grid-template-columns: 1fr 480px;
+  min-height: 100vh;
+}
+
+/* ─── LEFT PANEL ─── */
+.checkout-left {
+  background: #ffffff;
+  padding: 60px 72px 80px;
+  display: flex;
+  flex-direction: column;
+}
+
+.checkout-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #0b1425;
+  text-decoration: none;
+  display: block;
+  margin-bottom: 56px;
+}
+
+/* Breadcrumb */
+.checkout-steps {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 48px;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+}
+
+.step { color: #0b1425; opacity: 0.35; text-transform: uppercase; }
+.step.active { opacity: 1; font-weight: 500; }
+.step-sep { color: #0b1425; opacity: 0.2; }
+
+/* Section titles */
+.section-label {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  color: #0b1425;
+  margin-bottom: 20px;
+  margin-top: 40px;
+}
+
+.section-label:first-of-type { margin-top: 0; }
+
+/* Form fields */
+.field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.field-row.full { grid-template-columns: 1fr; }
+.field-row.third { grid-template-columns: 1fr 1fr 1fr; }
+
+.field {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.field label {
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #0b1425;
+  opacity: 0.45;
+  margin-bottom: 8px;
+}
+
+.field input,
+.field select {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  color: #0b1425;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(11,20,37,0.15);
+  padding: 10px 0;
+  outline: none;
+  transition: border-color 0.25s;
+  -webkit-appearance: none;
+}
+
+.field input::placeholder { color: #0b1425; opacity: 0.25; }
+
+.field input:focus,
+.field select:focus {
+  border-bottom-color: #0b1425;
+}
+
+/* Payment card icons */
+.card-icons {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.card-icon {
+  height: 26px;
+  padding: 4px 8px;
+  border: 1px solid rgba(11,20,37,0.12);
+  border-radius: 4px;
+  background: #fff;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: #0b1425;
+  opacity: 0.5;
+  display: flex;
+  align-items: center;
+}
+
+/* Card number with lock icon */
+.field-card {
+  position: relative;
+}
+
+.field-card .lock-icon {
+  position: absolute;
+  right: 0;
+  bottom: 12px;
+  opacity: 0.25;
+  width: 14px;
+  height: 14px;
+}
+
+/* Submit */
+.btn-pay {
+  margin-top: 48px;
+  width: 100%;
+  padding: 20px;
+  background: #0b1425;
+  color: #ffffff;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  border: 1px solid #0b1425;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.btn-pay:hover {
+  background: transparent;
+  color: #0b1425;
+}
+
+.btn-pay svg {
+  width: 14px;
+  height: 14px;
+  opacity: 0.6;
+}
+
+/* Back link */
+.back-link {
+  margin-top: 24px;
+  text-align: center;
+  font-size: 12px;
+  color: #0b1425;
+  opacity: 0.4;
+  text-decoration: none;
+  letter-spacing: 0.06em;
+  transition: opacity 0.2s;
+  display: block;
+}
+
+.back-link:hover { opacity: 0.8; }
+
+/* Secure badge */
+.secure-note {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 20px;
+  font-size: 11px;
+  color: #0b1425;
+  opacity: 0.3;
+  letter-spacing: 0.06em;
+}
+
+.secure-note svg { width: 12px; height: 12px; }
+
+/* ─── RIGHT PANEL ─── */
+.checkout-right {
+  background: #f4f2ef;
+  padding: 60px 48px 80px;
+  border-left: 1px solid rgba(11,20,37,0.06);
+  display: flex;
+  flex-direction: column;
+}
+
+.order-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #0b1425;
+  opacity: 0.5;
+  margin-bottom: 36px;
+}
+
+/* Order items */
+.order-item {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 28px;
+}
+
+.order-item-img-wrap {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.order-item-img {
+  width: 72px;
+  height: 72px;
+  object-fit: cover;
+  object-position: center 90%;
+  display: block;
+}
+
+.order-item-badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 20px;
+  height: 20px;
+  background: #0b1425;
+  color: #fff;
+  border-radius: 50%;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.order-item-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 17px;
+  font-weight: 400;
+  color: #0b1425;
+  margin-bottom: 4px;
+}
+
+.order-item-meta {
+  font-size: 11px;
+  color: #0b1425;
+  opacity: 0.4;
+  letter-spacing: 0.06em;
+}
+
+.order-item-price {
+  margin-left: auto;
+  font-size: 14px;
+  font-weight: 400;
+  color: #0b1425;
+  white-space: nowrap;
+}
+
+/* Order totals */
+.order-divider {
+  border: none;
+  border-top: 1px solid rgba(11,20,37,0.1);
+  margin: 24px 0;
+}
+
+.order-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+  font-size: 13px;
+  color: #0b1425;
+}
+
+.order-line span:first-child { opacity: 0.5; }
+.order-line span:last-child { font-weight: 400; }
+
+.order-line.total {
+  margin-top: 20px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px;
+}
+
+.order-line.total span:first-child { opacity: 0.8; }
+
+/* Promo code */
+.promo-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 28px;
+}
+
+.promo-input {
+  flex: 1;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  color: #0b1425;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(11,20,37,0.2);
+  padding: 10px 0;
+  outline: none;
+  letter-spacing: 0.06em;
+  transition: border-color 0.2s;
+}
+
+.promo-input::placeholder { color: #0b1425; opacity: 0.25; font-style: italic; }
+.promo-input:focus { border-bottom-color: #0b1425; }
+
+.promo-btn {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #0b1425;
+  background: transparent;
+  border: 1px solid rgba(11,20,37,0.25);
+  padding: 10px 18px;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.promo-btn:hover { border-color: #0b1425; background: #0b1425; color: #fff; }
+
+/* ─── SUCCESS OVERLAY ─── */
+.success-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(250,249,247,0.97);
+  z-index: 999;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px;
+}
+
+.success-overlay.show { display: flex; }
+
+.success-check {
+  width: 56px;
+  height: 56px;
+  border: 1.5px solid #0b1425;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 32px;
+}
+
+.success-check svg { width: 22px; height: 22px; }
+
+.success-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(32px, 4vw, 48px);
+  font-weight: 300;
+  letter-spacing: 0.04em;
+  color: #0b1425;
+  margin-bottom: 14px;
+}
+
+.success-sub {
+  font-size: 14px;
+  color: #0b1425;
+  opacity: 0.5;
+  max-width: 400px;
+  line-height: 1.8;
+  margin-bottom: 48px;
+}
+
+.success-back {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #0b1425;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(11,20,37,0.3);
+  padding-bottom: 3px;
+  transition: opacity 0.2s;
+}
+
+.success-back:hover { opacity: 0.6; }
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 960px) {
+  .checkout-wrap { grid-template-columns: 1fr; }
+  .checkout-right { border-left: none; border-top: 1px solid rgba(11,20,37,0.08); padding: 40px 32px; }
+  .checkout-left { padding: 40px 32px 60px; }
+  .field-row.third { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 560px) {
+  .checkout-left { padding: 32px 24px 48px; }
+  .checkout-right { padding: 32px 24px; }
+  .field-row { grid-template-columns: 1fr; }
+  .field-row.third { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="checkout-wrap">
+
+  <!-- ─── LEFT: FORM ─── -->
+  <div class="checkout-left">
+    <a href="index.html" class="checkout-logo">Sancta</a>
+
+    <div class="checkout-steps">
+      <span class="step">Cart</span>
+      <span class="step-sep">›</span>
+      <span class="step active">Information</span>
+      <span class="step-sep">›</span>
+      <span class="step">Shipping</span>
+      <span class="step-sep">›</span>
+      <span class="step">Payment</span>
+    </div>
+
+    <form id="checkoutForm" onsubmit="handleCheckout(event)" novalidate>
+
+      <!-- Contact -->
+      <p class="section-label">Contact</p>
+      <div class="field-row full">
+        <div class="field">
+          <label>Email address</label>
+          <input type="email" placeholder="your@email.com" required>
+        </div>
+      </div>
+
+      <!-- Shipping -->
+      <p class="section-label">Shipping address</p>
+      <div class="field-row">
+        <div class="field">
+          <label>First name</label>
+          <input type="text" placeholder="Élise" required>
+        </div>
+        <div class="field">
+          <label>Last name</label>
+          <input type="text" placeholder="Moreau" required>
+        </div>
+      </div>
+      <div class="field-row full">
+        <div class="field">
+          <label>Address</label>
+          <input type="text" placeholder="7 Rue du Faubourg Saint-Honoré" required>
+        </div>
+      </div>
+      <div class="field-row full">
+        <div class="field">
+          <label>Apartment, suite, etc. (optional)</label>
+          <input type="text" placeholder="">
+        </div>
+      </div>
+      <div class="field-row third">
+        <div class="field">
+          <label>City</label>
+          <input type="text" placeholder="Paris" required>
+        </div>
+        <div class="field">
+          <label>Postal code</label>
+          <input type="text" placeholder="75008" required>
+        </div>
+        <div class="field">
+          <label>Country</label>
+          <select required>
+            <option value="">Select</option>
+            <option>France</option>
+            <option>Canada</option>
+            <option>United States</option>
+            <option>United Kingdom</option>
+            <option>Switzerland</option>
+            <option>Belgium</option>
+            <option>Monaco</option>
+            <option>Other</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Payment -->
+      <p class="section-label" style="margin-top:48px;">Payment</p>
+      <div class="card-icons">
+        <span class="card-icon">VISA</span>
+        <span class="card-icon">MC</span>
+        <span class="card-icon">AMEX</span>
+        <span class="card-icon">PAYPAL</span>
+      </div>
+
+      <div class="field-row full">
+        <div class="field field-card">
+          <label>Card number</label>
+          <input type="text" placeholder="1234  5678  9012  3456" maxlength="19" oninput="formatCard(this)" required>
+          <svg class="lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>
+          </svg>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Expiry date</label>
+          <input type="text" placeholder="MM / YY" maxlength="7" oninput="formatExpiry(this)" required>
+        </div>
+        <div class="field">
+          <label>Security code</label>
+          <input type="text" placeholder="CVV" maxlength="4" oninput="this.value=this.value.replace(/\D/g,'')" required>
+        </div>
+      </div>
+      <div class="field-row full">
+        <div class="field">
+          <label>Name on card</label>
+          <input type="text" placeholder="Élise Moreau" required>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-pay">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>
+        </svg>
+        Complete Order
+      </button>
+
+    </form>
+
+    <a href="javascript:history.back()" class="back-link">← Return to cart</a>
+
+    <p class="secure-note">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>
+      </svg>
+      All transactions are encrypted and secure
+    </p>
+  </div>
+
+  <!-- ─── RIGHT: ORDER SUMMARY ─── -->
+  <div class="checkout-right">
+    <p class="order-title">Order Summary</p>
+
+    <div id="orderItems"></div>
+
+    <hr class="order-divider">
+
+    <div class="order-line">
+      <span>Subtotal</span>
+      <span id="subtotalVal">—</span>
+    </div>
+    <div class="order-line">
+      <span>Shipping</span>
+      <span id="shippingVal">Calculated at next step</span>
+    </div>
+
+    <div class="order-line total">
+      <span>Total</span>
+      <span id="totalVal">—</span>
+    </div>
+
+    <div class="promo-row">
+      <input class="promo-input" type="text" placeholder="Gift card or discount code">
+      <button class="promo-btn" type="button">Apply</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- ─── SUCCESS OVERLAY ─── -->
+<div class="success-overlay" id="successOverlay">
+  <div class="success-check">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#0b1425" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="20 6 9 17 4 12"/>
+    </svg>
+  </div>
+  <h1 class="success-title">Thank you for your order.</h1>
+  <p class="success-sub">Your Sancta piece is being prepared with care. A confirmation has been sent to your email address.</p>
+  <a href="index.html" class="success-back">Return to Sancta</a>
+</div>
+
+<script>
+// ─── Render order from localStorage ───
+const cart = JSON.parse(localStorage.getItem('sancta_cart') || '[]');
+const orderItems = document.getElementById('orderItems');
+const subtotalVal = document.getElementById('subtotalVal');
+const totalVal = document.getElementById('totalVal');
+
+if (cart.length === 0) {
+  orderItems.innerHTML = '<p style="font-size:13px;color:#0b1425;opacity:0.4;font-style:italic;">Your cart is empty.</p>';
+} else {
+  const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0);
+  cart.forEach(item => {
+    orderItems.innerHTML += `
+      <div class="order-item">
+        <div class="order-item-img-wrap">
+          <img src="${item.img}" class="order-item-img" alt="${item.name}">
+          <span class="order-item-badge">${item.qty}</span>
+        </div>
+        <div>
+          <p class="order-item-name">${item.name}</p>
+          <p class="order-item-meta">Chain: ${item.size}</p>
+        </div>
+        <span class="order-item-price">$${(item.price * item.qty).toFixed(2)}</span>
+      </div>`;
+  });
+  subtotalVal.textContent = '$' + subtotal.toFixed(2);
+  totalVal.textContent = '$' + subtotal.toFixed(2);
+}
+
+// ─── Card formatting ───
+function formatCard(input) {
+  let v = input.value.replace(/\D/g, '').substring(0, 16);
+  input.value = v.replace(/(.{4})/g, '$1  ').trim();
+}
+
+function formatExpiry(input) {
+  let v = input.value.replace(/\D/g, '').substring(0, 4);
+  if (v.length >= 2) v = v.substring(0, 2) + ' / ' + v.substring(2);
+  input.value = v;
+}
+
+// ─── Submit ───
+function handleCheckout(e) {
+  e.preventDefault();
+  localStorage.removeItem('sancta_cart');
+  document.getElementById('successOverlay').classList.add('show');
+}
+</script>
+</body>
+</html>

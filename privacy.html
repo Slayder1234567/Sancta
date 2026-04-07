@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy — Sancta</title>
+<link rel="icon" type="image/jpeg" href="photos/logo.jpeg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  color: #0b1425;
+  background: #ffffff;
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* ─── NAVBAR ─── */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 40px;
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(11,20,37,0.08);
+}
+
+.navbar-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  color: #0b1425;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+/* ─── PAGE CONTENT ─── */
+.terms-page {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 140px 40px 100px;
+}
+
+.terms-eyebrow {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #0b1425;
+  opacity: 0.45;
+  margin-bottom: 18px;
+}
+
+.terms-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(36px, 5vw, 54px);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: #0b1425;
+  margin-bottom: 12px;
+  line-height: 1.15;
+}
+
+.terms-date {
+  font-size: 13px;
+  color: #0b1425;
+  opacity: 0.45;
+  margin-bottom: 56px;
+}
+
+.terms-section {
+  margin-bottom: 44px;
+}
+
+.terms-section h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: #0b1425;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(11,20,37,0.1);
+}
+
+.terms-section p {
+  font-size: 14.5px;
+  line-height: 1.8;
+  color: #0b1425;
+  opacity: 0.75;
+  margin-bottom: 12px;
+}
+
+.terms-section p:last-child {
+  margin-bottom: 0;
+}
+
+.terms-section ul {
+  padding-left: 22px;
+  margin-top: 8px;
+  margin-bottom: 12px;
+}
+
+.terms-section ul li {
+  font-size: 14.5px;
+  line-height: 1.8;
+  color: #0b1425;
+  opacity: 0.75;
+  margin-bottom: 6px;
+}
+
+.terms-section .sub-label {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  color: #0b1425;
+  opacity: 0.9;
+  margin-top: 20px;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.terms-divider {
+  border: none;
+  border-top: 1px solid rgba(11,20,37,0.08);
+  margin: 56px 0;
+}
+
+/* ─── FOOTER ─── */
+.footer {
+  background: #0b1425;
+  color: #e0e0e0;
+  padding: 64px 80px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 60px;
+  flex-wrap: wrap;
+}
+
+.footer-brand {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  margin-bottom: 20px;
+}
+
+.footer-copy {
+  font-size: 12px;
+  opacity: 0.5;
+  line-height: 1.7;
+}
+
+.footer-copy a {
+  color: inherit;
+  text-decoration: none;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+
+.footer-copy a:hover {
+  opacity: 1;
+}
+
+.design-link {
+  color: #e0e0e0;
+  text-decoration: none;
+  opacity: 0.65;
+  transition: opacity 0.2s;
+}
+
+.design-link:hover {
+  opacity: 1;
+}
+
+@media (max-width: 640px) {
+  .navbar { padding: 16px 24px; }
+  .terms-page { padding: 120px 24px 80px; }
+  .footer { padding: 48px 24px; flex-direction: column; gap: 40px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ─── NAVBAR ─── -->
+<nav class="navbar">
+  <a href="index.html" class="navbar-logo">Sancta</a>
+</nav>
+
+<!-- ─── PRIVACY CONTENT ─── -->
+<main class="terms-page">
+
+  <p class="terms-eyebrow">Legal</p>
+  <h1 class="terms-title">Privacy Policy</h1>
+  <p class="terms-date">Last updated: April 7, 2026 &nbsp;·&nbsp; Effective date: April 7, 2026</p>
+
+  <div class="terms-section">
+    <p>This Privacy Policy explains how we collect, use, disclose, and otherwise process personal data in connection with our services.</p>
+  </div>
+
+  <div class="terms-section">
+    <h2>1. Who We Are</h2>
+    <p>When we use the terms "Sancta", "we", "us", or "our" in this Privacy Policy, we are referring to Sancta, a brand headquartered in Montreal, Quebec, Canada. Our core mission is to provide faith-inspired fine jewelry while strictly safeguarding the privacy and personal data of our clients.</p>
+  </div>
+
+  <div class="terms-section">
+    <h2>2. What is Personal Data?</h2>
+    <p>"Personal data" or "personal information" means information that identifies, relates to, describes, is reasonably capable of being associated with, or could reasonably be linked, directly or indirectly, to an individual. It does not include aggregated or de-identified information.</p>
+  </div>
+
+  <div class="terms-section">
+    <h2>3. Our Collection of Personal Data</h2>
+    <p>From the moment you interact with us, we collect personal data about you. We collect this data directly from you, automatically through your use of our websites, and sometimes from third-party partners.</p>
+
+    <span class="sub-label">A. Personal Data You Provide Directly</span>
+    <p><strong>Contact, Account, and Profile Information:</strong> We collect personal data, such as your name, email address, password, telephone number, shipping, and billing address when you create an account, sign up for our newsletter, make a purchase, or communicate with us.</p>
+    <p><strong>Payment and Transaction Information:</strong> When you make a purchase, we collect order details and payment information. Note: We use secure third-party payment processors (e.g., Stripe, Shopify Payments, PayPal). We do not directly store or retain your full credit card numbers.</p>
+    <p><strong>Inquiries and Communications:</strong> If you contact us via email, webform, or social media, we record your contact information and the content of your message to provide customer support.</p>
+
+    <span class="sub-label">B. Personal Data Automatically Collected</span>
+    <p>Like most luxury digital platforms, we and our third-party providers collect certain data automatically to ensure a seamless browsing experience.</p>
+    <p><strong>Device and Network Information:</strong> Your IP address, browser type, device model, operating system, and unique device identifiers.</p>
+    <p><strong>Usage and Analytics Data:</strong> Information about how you navigate our Site, the pages you visit, the products you view, and your path through our checkout process. We use tools like Google Analytics to improve our Site's design and functionality.</p>
+    <p><strong>Cookies and Tracking Technologies:</strong> We use cookies, web beacons, and pixels to remember your preferences (like items in your cart) and to deliver personalized content and advertisements.</p>
+  </div>
+
+  <div class="terms-section">
+    <h2>4. How We Use Your Personal Data</h2>
+    <p>We use the information we collect for the following business and commercial purposes:</p>
+    <ul>
+      <li><strong>To Fulfill Your Orders:</strong> Processing payments, shipping your jewelry, and sending transactional emails (order confirmations, tracking numbers).</li>
+      <li><strong>To Improve Customer Experience:</strong> Personalizing your visit to our Site and remembering your preferences.</li>
+      <li><strong>To Communicate With You:</strong> Responding to your inquiries, handling returns, and sending you updates about your account.</li>
+      <li><strong>For Marketing and Advertising:</strong> Sending you promotional emails, newsletters, and exclusive Sancta collection drops (only if you have opted in). We also use data to serve targeted advertisements on third-party platforms like social media.</li>
+      <li><strong>For Security and Fraud Prevention:</strong> Protecting our Site, our business, and your financial data against fraudulent transactions.</li>
+      <li><strong>To Comply with Legal Obligations:</strong> Maintaining records as required by tax and corporate laws.</li>
+    </ul>
+  </div>
+
+  <div class="terms-section">
+    <h2>5. How We Disclose Your Personal Data</h2>
+    <p>We respect the exclusivity of your data. We do not sell your personal information to third-party data brokers. We only share your data in the following necessary circumstances:</p>
+    <ul>
+      <li><strong>Service Providers:</strong> We share information with trusted third-party vendors who perform services on our behalf (e.g., shipping carriers, payment processors, email marketing platforms, and IT hosting).</li>
+      <li><strong>Advertising Partners:</strong> We may share limited data (like cookie IDs or hashed emails) with platforms (e.g., Meta, Google) to deliver Sancta advertisements to you or users with similar interests.</li>
+      <li><strong>Legal Compliance:</strong> We may disclose your data if required by law, court order, or governmental regulations (including Canadian and Quebec provincial authorities), or to protect the rights, property, and safety of Sancta and our clients.</li>
+      <li><strong>Business Transfers:</strong> In the event of a merger, acquisition, or sale of company assets, client information may be transferred as a business asset.</li>
+    </ul>
+  </div>
+
+  <div class="terms-section">
+    <h2>6. Your Privacy Rights &amp; Choices</h2>
+    <p>Depending on your jurisdiction (including the rights granted to residents of Quebec under Law 25, Canada under PIPEDA, and international equivalents like the GDPR or CCPA), you possess specific rights regarding your personal data:</p>
+    <ul>
+      <li><strong>Right to Access:</strong> You have the right to request a copy of the personal data we hold about you.</li>
+      <li><strong>Right to Rectification:</strong> You can request that we correct any inaccurate or incomplete personal data.</li>
+      <li><strong>Right to Erasure (Right to be Forgotten):</strong> You may request the deletion of your personal data, subject to certain legal and tax retention exceptions.</li>
+      <li><strong>Right to Withdraw Consent:</strong> You can opt-out of our marketing communications at any time by clicking the "Unsubscribe" link at the bottom of our emails.</li>
+      <li><strong>Cookie Preferences:</strong> You can modify your browser settings to decline cookies or notify you when a cookie is set. Note that declining essential cookies may impact your ability to checkout on our Site.</li>
+    </ul>
+  </div>
+
+  <div class="terms-section">
+    <h2>7. Data Retention and Security</h2>
+    <p>We implement strict physical, technical, and administrative security measures to protect your personal data against unauthorized access or disclosure. We retain your personal data only for as long as is reasonably necessary to fulfill the purposes outlined in this policy, or as required by law (e.g., keeping purchase records for tax purposes).</p>
+  </div>
+
+  <div class="terms-section">
+    <h2>8. Children's Privacy</h2>
+    <p>Our Site is a luxury platform intended for adults. We do not knowingly collect personal data from children under the age of 16. If we become aware that we have collected such data, we will take immediate steps to delete it.</p>
+  </div>
+
+  <div class="terms-section">
+    <h2>9. Changes to This Privacy Policy</h2>
+    <p>We may update this Privacy Policy periodically to reflect changes in our practices or legal requirements. When we do, we will update the "Last Updated" date at the top of this page. We encourage you to review this policy whenever you interact with us.</p>
+  </div>
+
+  <div class="terms-section">
+    <h2>10. Contact Us (Privacy Officer)</h2>
+    <p>If you have any questions, concerns, or wish to exercise your privacy rights, please contact our Privacy Officer:</p>
+    <p>
+      <strong>Sancta</strong><br>
+      7141 Sherbrooke West Street<br>
+      Montreal, QC, Canada<br>
+      Email: <a href="mailto:antoninleclei.pro@gmail.com" style="color:#0b1425;opacity:0.75;">antoninleclei.pro@gmail.com</a>
+    </p>
+  </div>
+
+  <hr class="terms-divider">
+  <p style="font-size:13px;color:#0b1425;opacity:0.4;text-align:center;">© 2026 Sancta. All rights reserved.</p>
+
+</main>
+
+<!-- ─── FOOTER ─── -->
+<footer class="footer">
+  <div>
+    <p class="footer-brand">Sancta</p>
+    <p class="footer-copy">&copy; 2026 Sancta. All rights reserved.</p>
+    <p class="footer-copy" style="margin-top:8px;">Design by <a href="https://www.antoninleclei.com" target="_blank" class="design-link">Antonin Le Cleï</a></p>
+    <p class="footer-copy" style="margin-top:12px;">
+      <a href="terms.html" class="design-link">Terms &amp; Conditions</a>
+      <span style="margin:0 10px;color:#e0e0e0;opacity:0.4;">·</span>
+      <a href="privacy.html" class="design-link">Privacy Policy</a>
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>
