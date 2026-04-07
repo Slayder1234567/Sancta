@@ -55,7 +55,7 @@ module.exports = async (req, res) => {
         ],
       },
       custom_text: {
-        submit: { message: 'Your Sancta piece will be prepared with care.' },
+        submit: { message: 'Your Misancta piece will be prepared with care.' },
       },
     });
 
