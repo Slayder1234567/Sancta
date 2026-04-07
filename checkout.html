@@ -522,44 +522,13 @@ body {
 
       <!-- Payment -->
       <p class="section-label" style="margin-top:48px;">Payment</p>
-      <div class="card-icons">
-        <span class="card-icon">VISA</span>
-        <span class="card-icon">MC</span>
-        <span class="card-icon">AMEX</span>
-        <span class="card-icon">PAYPAL</span>
-      </div>
+      <p style="font-size:13px;color:#0b1425;opacity:0.5;margin-bottom:28px;line-height:1.7;">You will be redirected to our secure payment page. We accept all major credit cards.</p>
 
-      <div class="field-row full">
-        <div class="field field-card">
-          <label>Card number</label>
-          <input type="text" placeholder="1234  5678  9012  3456" maxlength="19" oninput="formatCard(this)" required>
-          <svg class="lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>
-          </svg>
-        </div>
-      </div>
-      <div class="field-row">
-        <div class="field">
-          <label>Expiry date</label>
-          <input type="text" placeholder="MM / YY" maxlength="7" oninput="formatExpiry(this)" required>
-        </div>
-        <div class="field">
-          <label>Security code</label>
-          <input type="text" placeholder="CVV" maxlength="4" oninput="this.value=this.value.replace(/\D/g,'')" required>
-        </div>
-      </div>
-      <div class="field-row full">
-        <div class="field">
-          <label>Name on card</label>
-          <input type="text" placeholder="Élise Moreau" required>
-        </div>
-      </div>
-
-      <button type="submit" class="btn-pay">
+      <button type="submit" class="btn-pay" id="payBtn">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
           <rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>
         </svg>
-        Complete Order
+        <span id="payBtnText">Complete Order</span>
       </button>
 
     </form>
@@ -617,7 +586,9 @@ body {
 </div>
 
 <script>
-// ─── Render order from localStorage ───
+const STRIPE_PK = 'pk_test_51TJd3UPl2juRQTr3zpiWySziNJcJO5JvHyS1pa6LWEXId8dwujlSE4ZYLAsn1Uc4WDrW0NIxRTCyS7qHSb36kywZHHtQGY4KBQAS00ZOUnm4JS';
+
+// ─── Render order summary ───
 const cart = JSON.parse(localStorage.getItem('sancta_cart') || '[]');
 const orderItems = document.getElementById('orderItems');
 const subtotalVal = document.getElementById('subtotalVal');
@@ -625,6 +596,7 @@ const totalVal = document.getElementById('totalVal');
 
 if (cart.length === 0) {
   orderItems.innerHTML = '<p style="font-size:13px;color:#0b1425;opacity:0.4;font-style:italic;">Your cart is empty.</p>';
+  document.getElementById('payBtn').disabled = true;
 } else {
   const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0);
   cart.forEach(item => {
@@ -645,23 +617,36 @@ if (cart.length === 0) {
   totalVal.textContent = '$' + subtotal.toFixed(2);
 }
 
-// ─── Card formatting ───
-function formatCard(input) {
-  let v = input.value.replace(/\D/g, '').substring(0, 16);
-  input.value = v.replace(/(.{4})/g, '$1  ').trim();
-}
-
-function formatExpiry(input) {
-  let v = input.value.replace(/\D/g, '').substring(0, 4);
-  if (v.length >= 2) v = v.substring(0, 2) + ' / ' + v.substring(2);
-  input.value = v;
-}
-
-// ─── Submit ───
-function handleCheckout(e) {
+// ─── Submit → Stripe Checkout ───
+async function handleCheckout(e) {
   e.preventDefault();
-  localStorage.removeItem('sancta_cart');
-  document.getElementById('successOverlay').classList.add('show');
+  if (cart.length === 0) return;
+
+  const btn = document.getElementById('payBtn');
+  const btnText = document.getElementById('payBtnText');
+  btn.disabled = true;
+  btnText.textContent = 'Redirecting...';
+
+  try {
+    const res = await fetch('/api/create-checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ items: cart }),
+    });
+
+    const data = await res.json();
+
+    if (data.url) {
+      localStorage.removeItem('sancta_cart');
+      window.location.href = data.url;
+    } else {
+      throw new Error(data.error || 'Unknown error');
+    }
+  } catch (err) {
+    btnText.textContent = 'Complete Order';
+    btn.disabled = false;
+    alert('Payment error: ' + err.message);
+  }
 }
 </script>
 </body>
