@@ -157,6 +157,25 @@ body {
   height: 14px;
 }
 
+/* Validation */
+.field input.error,
+.field select.error {
+  border-bottom-color: #c0392b;
+}
+
+.field .error-msg {
+  font-size: 10px;
+  color: #c0392b;
+  letter-spacing: 0.06em;
+  margin-top: 5px;
+  display: none;
+}
+
+.field input.error ~ .error-msg,
+.field select.error ~ .error-msg {
+  display: block;
+}
+
 /* Submit */
 .btn-pay {
   margin-top: 48px;
@@ -467,7 +486,8 @@ body {
       <div class="field-row full">
         <div class="field">
           <label>Email address</label>
-          <input type="email" placeholder="your@email.com" required>
+          <input type="email" id="f-email" placeholder="your@email.com" required oninput="clearError(this)">
+          <span class="error-msg">This field is required</span>
         </div>
       </div>
 
@@ -476,17 +496,20 @@ body {
       <div class="field-row">
         <div class="field">
           <label>First name</label>
-          <input type="text" placeholder="Élise" required>
+          <input type="text" id="f-firstname" placeholder="Élise" required oninput="clearError(this)">
+          <span class="error-msg">This field is required</span>
         </div>
         <div class="field">
           <label>Last name</label>
-          <input type="text" placeholder="Moreau" required>
+          <input type="text" id="f-lastname" placeholder="Moreau" required oninput="clearError(this)">
+          <span class="error-msg">This field is required</span>
         </div>
       </div>
       <div class="field-row full">
         <div class="field">
           <label>Address</label>
-          <input type="text" placeholder="7 Rue du Faubourg Saint-Honoré" required>
+          <input type="text" id="f-address" placeholder="7 Rue du Faubourg Saint-Honoré" required oninput="clearError(this)">
+          <span class="error-msg">This field is required</span>
         </div>
       </div>
       <div class="field-row full">
@@ -498,15 +521,17 @@ body {
       <div class="field-row third">
         <div class="field">
           <label>City</label>
-          <input type="text" placeholder="Paris" required>
+          <input type="text" id="f-city" placeholder="Paris" required oninput="clearError(this)">
+          <span class="error-msg">This field is required</span>
         </div>
         <div class="field">
           <label>Postal code</label>
-          <input type="text" placeholder="75008" required>
+          <input type="text" id="f-postal" placeholder="75008" required oninput="clearError(this)">
+          <span class="error-msg">This field is required</span>
         </div>
         <div class="field">
           <label>Country</label>
-          <select required>
+          <select id="f-country" required onchange="clearError(this)">
             <option value="">Select</option>
             <option>France</option>
             <option>Canada</option>
@@ -517,6 +542,7 @@ body {
             <option>Monaco</option>
             <option>Other</option>
           </select>
+          <span class="error-msg">Please select a country</span>
         </div>
       </div>
 
@@ -617,10 +643,47 @@ if (cart.length === 0) {
   totalVal.textContent = '$' + subtotal.toFixed(2);
 }
 
+// ─── Validation ───
+function clearError(el) {
+  el.classList.remove('error');
+}
+
+function validateForm() {
+  const required = ['f-email', 'f-firstname', 'f-lastname', 'f-address', 'f-city', 'f-postal', 'f-country'];
+  let valid = true;
+
+  required.forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const isEmpty = el.value.trim() === '' || (el.tagName === 'SELECT' && el.value === '');
+    if (isEmpty) {
+      el.classList.add('error');
+      valid = false;
+    } else {
+      el.classList.remove('error');
+    }
+  });
+
+  // Extra check: valid email format
+  const emailEl = document.getElementById('f-email');
+  if (emailEl && emailEl.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailEl.value)) {
+    emailEl.classList.add('error');
+    valid = false;
+  }
+
+  if (!valid) {
+    const firstError = document.querySelector('.field input.error, .field select.error');
+    if (firstError) firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  return valid;
+}
+
 // ─── Submit → Stripe Checkout ───
 async function handleCheckout(e) {
   e.preventDefault();
   if (cart.length === 0) return;
+  if (!validateForm()) return;
 
   const btn = document.getElementById('payBtn');
   const btnText = document.getElementById('payBtnText');
