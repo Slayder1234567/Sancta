@@ -241,9 +241,6 @@ body {
 
 <nav class="navbar">
   <a href="index.html" class="navbar-logo">Sancta</a>
-  <a href="javascript:history.back()" class="navbar-back">
-    ← Continue shopping
-  </a>
 </nav>
 
 <main class="checkout-main">
@@ -359,7 +356,6 @@ async function handleCheckout() {
     const data = await res.json();
 
     if (data.url) {
-      localStorage.removeItem('sancta_cart');
       window.location.href = data.url;
     } else {
       throw new Error(data.error || 'Unknown error');
