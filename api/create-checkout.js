@@ -54,6 +54,7 @@ module.exports = async (req, res) => {
           'VG','VN','VU','WF','WS','XK','YE','YT','ZA','ZM','ZW'
         ],
       },
+      locale: 'en',
       custom_text: {
         submit: { message: 'Your Cincta piece will be prepared with care.' },
       },
