@@ -42,19 +42,65 @@ function aliexpressRequest(method, params) {
   });
 }
 
+// ─── Product & SKU mapping ───────────────────────────────────────────────────
+
+// AliExpress DS product IDs
+const ALIEXPRESS_PRODUCTS = {
+  'The Cross': { product_id: '1005007562171783' },
+  'The Ring':  { product_id: '1005007975677041' },
+};
+
+// Ring SKU IDs per color + size combination.
+// Fill these in from the AliExpress DS API product details endpoint once approved.
+// Format: 'Color-Size' → sku_id string
+const RING_SKU_MAP = {
+  'Silver-6':    '', 'Silver-7':    '', 'Silver-8':    '', 'Silver-9':    '', 'Silver-10':    '',
+  'Gold-6':      '', 'Gold-7':      '', 'Gold-8':      '', 'Gold-9':      '', 'Gold-10':      '',
+  'Rose Gold-6': '', 'Rose Gold-7': '', 'Rose Gold-8': '', 'Rose Gold-9': '', 'Rose Gold-10': '',
+};
+
+function getSkuId(item) {
+  if (item.name === 'The Ring') {
+    const key = `${item.color}-${item.size}`;
+    return RING_SKU_MAP[key] || '';
+  }
+  // The Cross — single 40cm variant
+  return '';
+}
+
 // ─── Place order on AliExpress ───────────────────────────────────────────────
 
 async function placeAliexpressOrder(session) {
   const shipping = session.shipping_details;
   const addr     = shipping.address;
 
-  const orderItems = [{
-    product_id:          '1005007562171783',
-    sku_id:              '',          // populated via API once approved; 40cm only variant
-    quantity:            1,
-    logistics_service_name: 'CAINIAO_STANDARD',
-    order_memo:          'Cincta order — handle with care',
-  }];
+  // Parse cart from Stripe metadata (set by create-checkout.js)
+  let cartItems = [];
+  try {
+    cartItems = JSON.parse(session.metadata?.cart || '[]');
+  } catch (e) {
+    // Fallback: single Cross order (legacy sessions without metadata)
+    cartItems = [{ name: 'The Cross', size: '40 cm', color: '', qty: 1 }];
+  }
+
+  const orderItems = cartItems.map(item => {
+    const product = ALIEXPRESS_PRODUCTS[item.name];
+    if (!product) {
+      console.warn(`Unknown product: ${item.name} — skipping`);
+      return null;
+    }
+    return {
+      product_id:              product.product_id,
+      sku_id:                  getSkuId(item),
+      quantity:                item.qty,
+      logistics_service_name:  'CAINIAO_STANDARD',
+      order_memo:              `Cincta order — ${item.name}${item.color ? ' · ' + item.color : ''}${item.size ? ' · Size ' + item.size : ''}`,
+    };
+  }).filter(Boolean);
+
+  if (orderItems.length === 0) {
+    throw new Error('No valid AliExpress products in order');
+  }
 
   const body = {
     param_place_order_request4_open_api_d_t_o: JSON.stringify({

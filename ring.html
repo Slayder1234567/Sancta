@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Ring — Cincta</title>
+<link rel="icon" type="image/jpeg" href="photos/logo.jpeg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  color: #0b1425;
+  background: #ffffff;
+  overflow-x: hidden;
+}
+
+/* ─── NAVBAR ─── */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 64px;
+  background: rgba(255,255,255,0.96);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(11,20,37,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 32px;
+  z-index: 100;
+}
+
+.navbar-logo {
+  position: absolute;
+  left: 32px;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 52px;
+  width: auto;
+}
+
+.navbar-brand {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #0b1425;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.navbar-brand:hover { opacity: 0.6; }
+
+.navbar-back {
+  position: absolute;
+  left: 110px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #6b6b6b;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.2s ease;
+}
+
+.navbar-back:hover { color: #0b1425; }
+
+.navbar-cart-btn {
+  position: absolute;
+  right: 32px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  color: #0b1425;
+  transition: opacity 0.2s ease;
+}
+
+.navbar-cart-btn:hover svg { animation: bagFlip 0.6s ease-in-out; }
+.navbar-cart-btn svg { width: 22px; height: 22px; }
+
+@keyframes bagFlip {
+  0%   { transform: rotateY(0deg); }
+  100% { transform: rotateY(360deg); }
+}
+
+/* ─── PRODUCT LAYOUT ─── */
+.product-page {
+  padding-top: 64px;
+  min-height: 100vh;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: calc(100vh - 64px);
+}
+
+/* ─── GALLERY ─── */
+.product-gallery {
+  position: sticky;
+  top: 64px;
+  height: calc(100vh - 64px);
+  overflow: hidden;
+  background: #fafaf9;
+}
+
+.gallery-main {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  display: block;
+  transition: opacity 0.15s ease;
+}
+
+/* ─── PRODUCT INFO ─── */
+.product-info {
+  padding: 80px 72px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.product-breadcrumb {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #c0c0c0;
+  margin-bottom: 24px;
+}
+
+.product-breadcrumb a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.product-breadcrumb a:hover { color: #0b1425; }
+
+.product-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(32px, 3.5vw, 52px);
+  font-weight: 300;
+  letter-spacing: 0.06em;
+  color: #0b1425;
+  margin-bottom: 12px;
+}
+
+.product-price {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 22px;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  color: #0b1425;
+  margin-bottom: 32px;
+}
+
+.product-divider {
+  width: 40px;
+  height: 1px;
+  background: #e0e0e0;
+  margin-bottom: 32px;
+}
+
+.product-desc {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 300;
+  color: #6b6b6b;
+  line-height: 1.9;
+  margin-bottom: 48px;
+  max-width: 420px;
+}
+
+/* ─── OPTIONS ─── */
+.option-label {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #0b1425;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.size-options {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+}
+
+.size-btn {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  padding: 10px 18px;
+  border: 1px solid #e0e0e0;
+  background: transparent;
+  cursor: pointer;
+  color: #0b1425;
+  transition: border-color 0.3s ease, background 0.3s ease, color 0.3s ease;
+}
+
+/* ─── SIZE GUIDE MODAL ─── */
+.size-guide-btn {
+  background: none;
+  border: none;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #6b6b6b;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  padding: 0;
+  transition: color 0.2s ease;
+}
+
+.size-guide-btn:hover { color: #0b1425; }
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(11,20,37,0.4);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.modal-overlay.open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.modal-box {
+  background: #ffffff;
+  padding: 48px 40px;
+  max-width: 700px;
+  width: 90vw;
+  max-height: 85vh;
+  overflow-y: auto;
+  transform: translateY(16px);
+  transition: transform 0.25s ease;
+}
+
+.modal-overlay.open .modal-box { transform: translateY(0); }
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 32px;
+}
+
+.modal-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 26px;
+  font-weight: 300;
+  letter-spacing: 0.06em;
+  color: #0b1425;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #0b1425;
+  padding: 4px;
+  transition: opacity 0.2s ease;
+}
+
+.modal-close:hover { opacity: 0.5; }
+.modal-close svg { width: 20px; height: 20px; }
+
+.size-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+}
+
+.size-table th {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #0b1425;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 10px 8px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.size-table td {
+  font-weight: 300;
+  color: #6b6b6b;
+  border-bottom: 1px solid #f5f5f5;
+  padding: 10px 8px;
+  text-align: center;
+}
+
+.size-table tr:last-child td { border-bottom: none; }
+
+.size-table td:first-child {
+  font-weight: 600;
+  color: #0b1425;
+}
+
+.size-guide-note {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 300;
+  color: #6b6b6b;
+  margin-top: 24px;
+  line-height: 1.7;
+}
+
+.size-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.size-btn:hover,
+.size-btn.active {
+  border-color: #0b1425;
+  background: #0b1425;
+  color: #ffffff;
+}
+
+.qty-selector {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 40px;
+}
+
+.qty-btn {
+  width: 36px;
+  height: 36px;
+  border: 1px solid #e0e0e0;
+  background: transparent;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #0b1425;
+  transition: border-color 0.3s ease;
+}
+
+.qty-btn:hover { border-color: #0b1425; }
+
+.qty-value {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  min-width: 20px;
+  text-align: center;
+}
+
+.btn-add-cart {
+  display: block;
+  width: 100%;
+  max-width: 360px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #ffffff;
+  background: #0b1425;
+  border: 1px solid #0b1425;
+  padding: 20px 48px;
+  cursor: pointer;
+  transition: background 0.35s ease, color 0.35s ease;
+  margin-bottom: 16px;
+}
+
+.btn-add-cart:hover {
+  background: transparent;
+  color: #0b1425;
+}
+
+/* ─── ACCORDION ─── */
+.product-details {
+  margin-top: 56px;
+  max-width: 420px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.accordion-item { border-bottom: 1px solid #f0f0f0; }
+
+.accordion-btn {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #0b1425;
+}
+
+.accordion-icon {
+  font-size: 18px;
+  font-weight: 300;
+  transition: transform 0.3s ease;
+}
+
+.accordion-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease;
+}
+
+.accordion-body p,
+.accordion-body li {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 300;
+  color: #6b6b6b;
+  line-height: 1.9;
+}
+
+.accordion-body ul { padding-bottom: 20px; }
+
+.accordion-item.open .accordion-icon { transform: rotate(45deg); }
+.accordion-item.open .accordion-body { max-height: 300px; }
+
+/* ─── CART DRAWER ─── */
+.cart-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(11,20,37,0.25);
+  z-index: 1998;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+
+.cart-overlay.open { opacity: 1; pointer-events: all; }
+
+.cart-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 420px;
+  max-width: 100vw;
+  height: 100%;
+  background: #ffffff;
+  z-index: 1999;
+  transform: translateX(100%);
+  transition: transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
+  display: flex;
+  flex-direction: column;
+  padding: 48px 40px;
+}
+
+.cart-drawer.open { transform: translateX(0); }
+
+.cart-drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 40px;
+}
+
+.cart-drawer-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px;
+  font-weight: 300;
+  color: #0b1425;
+}
+
+.cart-close-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  color: #0b1425;
+  transition: opacity 0.2s ease;
+}
+
+.cart-close-btn:hover { opacity: 0.5; }
+.cart-close-btn svg { width: 20px; height: 20px; }
+
+.cart-divider { width: 100%; height: 1px; background: #f0f0f0; margin: 8px 0; }
+
+.cart-empty-text {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 300;
+  color: #6b6b6b;
+  margin-top: 16px;
+}
+
+.cart-items { flex: 1; overflow-y: auto; }
+
+.cart-item {
+  display: flex;
+  gap: 16px;
+  padding: 20px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.cart-item-img {
+  width: 72px;
+  height: 72px;
+  object-fit: cover;
+  flex-shrink: 0;
+  background: #fafaf9;
+}
+
+.cart-item-info { flex: 1; }
+
+.cart-item-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 17px;
+  font-weight: 400;
+  color: #0b1425;
+  margin-bottom: 4px;
+}
+
+.cart-item-meta {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 300;
+  color: #6b6b6b;
+  margin-bottom: 12px;
+}
+
+.cart-item-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cart-item-price {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: #0b1425;
+}
+
+.cart-qty-selector {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.cart-qty-btn {
+  width: 28px;
+  height: 28px;
+  border: 1px solid #e0e0e0;
+  background: transparent;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #0b1425;
+  transition: border-color 0.2s ease;
+}
+
+.cart-qty-btn:hover { border-color: #0b1425; }
+
+.cart-qty-value {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  min-width: 16px;
+  text-align: center;
+  color: #0b1425;
+}
+
+.cart-item-remove {
+  background: none;
+  border: none;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: #c0c0c0;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: color 0.2s ease;
+}
+
+.cart-item-remove:hover { color: #0b1425; }
+
+.cart-footer {
+  padding-top: 24px;
+  border-top: 1px solid #f0f0f0;
+  margin-top: 8px;
+}
+
+.cart-total {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #0b1425;
+  margin-bottom: 20px;
+}
+
+.cart-checkout-btn {
+  display: block;
+  width: 100%;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #ffffff;
+  background: #0b1425;
+  border: 1px solid #0b1425;
+  padding: 18px;
+  cursor: pointer;
+  transition: background 0.3s ease, color 0.3s ease;
+  text-decoration: none;
+  text-align: center;
+}
+
+.cart-checkout-btn:hover { background: transparent; color: #0b1425; }
+
+.cart-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 16px;
+  height: 16px;
+  background: #0b1425;
+  color: #ffffff;
+  border-radius: 50%;
+  font-size: 10px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  font-family: 'DM Sans', sans-serif;
+  pointer-events: none;
+}
+
+/* ─── MOBILE ─── */
+@media (max-width: 900px) {
+  .product-grid { grid-template-columns: 1fr; }
+
+  .product-gallery {
+    position: relative;
+    top: 0;
+    height: 60vw;
+    min-height: 320px;
+  }
+
+  .product-info { padding: 48px 28px; }
+  .navbar-back { display: none; }
+  .btn-add-cart { max-width: 100%; }
+  .product-details { max-width: 100%; }
+}
+</style>
+</head>
+<body>
+
+<!-- ─── SIZE GUIDE MODAL ─── -->
+<div class="modal-overlay" id="sizeGuideModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <span class="modal-title">International Ring Size Guide</span>
+      <button class="modal-close" onclick="closeSizeGuide()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+    <table class="size-table">
+      <thead>
+        <tr>
+          <th>USA</th><th>UK</th><th>RU</th><th>FR</th><th>CA</th><th>BR</th><th>DE</th><th>Circumference (mm)</th><th>Diameter (mm)</th><th>Diameter (inch)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>5</td><td>J½</td><td>15.7</td><td>49.3</td><td>5</td><td>15.7</td><td>15.7</td><td>49.3</td><td>15.7</td><td>0.62</td></tr>
+        <tr><td>6</td><td>L½</td><td>16.5</td><td>51.9</td><td>6</td><td>16.5</td><td>16.5</td><td>51.9</td><td>16.5</td><td>0.65</td></tr>
+        <tr><td>7</td><td>N½(O)</td><td>17.3</td><td>54.4</td><td>7</td><td>17.3</td><td>17.3</td><td>54.4</td><td>17.3</td><td>0.68</td></tr>
+        <tr><td>8</td><td>P½</td><td>18.1</td><td>57</td><td>8</td><td>18.1</td><td>18.1</td><td>57</td><td>18.1</td><td>0.71</td></tr>
+        <tr><td>9</td><td>R½(S)</td><td>18.9</td><td>59.5</td><td>9</td><td>18.9</td><td>18.9</td><td>59.5</td><td>18.9</td><td>0.74</td></tr>
+        <tr><td>10</td><td>T½</td><td>19.8</td><td>62.1</td><td>10</td><td>19.8</td><td>19.8</td><td>62.1</td><td>19.8</td><td>0.78</td></tr>
+        <tr><td>11</td><td>V½</td><td>20.6</td><td>64.6</td><td>11</td><td>20.6</td><td>20.6</td><td>64.6</td><td>20.6</td><td>0.81</td></tr>
+        <tr><td>12</td><td>X½(Y)</td><td>21.4</td><td>67.2</td><td>12</td><td>21.4</td><td>21.4</td><td>67.2</td><td>21.4</td><td>0.84</td></tr>
+      </tbody>
+    </table>
+    <p class="size-guide-note">To find your size, measure the circumference of your finger in millimetres and match it to the table above.</p>
+  </div>
+</div>
+
+<!-- ─── CART DRAWER ─── -->
+<div class="cart-overlay" id="cartOverlay"></div>
+<aside class="cart-drawer" id="cartDrawer">
+  <div class="cart-drawer-header">
+    <span class="cart-drawer-title">Your Cart</span>
+    <button class="cart-close-btn" id="cartClose">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+  </div>
+  <div class="cart-divider"></div>
+  <p class="cart-empty-text" id="cartEmpty">Your cart is currently empty.</p>
+  <div class="cart-items" id="cartItems"></div>
+  <div class="cart-footer" id="cartFooter" style="display:none;">
+    <div class="cart-total">
+      <span>Total</span>
+      <span id="cartTotal">$0.00</span>
+    </div>
+    <a href="checkout.html" class="cart-checkout-btn">Proceed to Checkout</a>
+  </div>
+</aside>
+
+<!-- ─── NAVBAR ─── -->
+<nav class="navbar">
+  <img src="photos/logo.png" alt="Cincta" class="navbar-logo" onerror="this.style.display='none'">
+  <a href="index.html" class="navbar-brand">Cincta</a>
+  <a href="products.html" class="navbar-back">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M19 12H5M5 12l7 7M5 12l7-7"/></svg>
+    Products
+  </a>
+  <button class="navbar-cart-btn" id="cartBtn" style="position:absolute;right:32px;">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="4" y="7" width="16" height="14" rx="1"/><path d="M9 7V5a3 3 0 016 0v2"/>
+    </svg>
+    <span class="cart-badge" id="cartBadge">0</span>
+  </button>
+</nav>
+
+<!-- ─── PRODUCT PAGE ─── -->
+<main class="product-page">
+  <div class="product-grid">
+
+    <!-- Gallery -->
+    <div class="product-gallery">
+      <img src="./photos/img1ring.png" alt="The Ring" class="gallery-main" id="galleryMain">
+    </div>
+
+    <!-- Info -->
+    <div class="product-info">
+      <p class="product-breadcrumb"><a href="products.html">Cincta</a> &nbsp;/&nbsp; The Ring</p>
+      <h1 class="product-name">The Ring</h1>
+      <p class="product-price">From $20.99</p>
+      <div class="product-divider"></div>
+      <p class="product-desc">A delicate symbol of faith and eternal elegance. This beautifully crafted ring features a slender, silver-plated band crowned with a radiant zircon cross. Designed for the modern woman, its classic and minimalist style brings a touch of sacred grace to your everyday life or any special occasion.</p>
+
+      <label class="option-label">Color</label>
+      <div class="size-options" id="colorOptions">
+        <button class="size-btn" onclick="selectColor(this, './photos/img1ring.png')">Silver</button>
+        <button class="size-btn" onclick="selectColor(this, './photos/img3ringgold.png')">Gold</button>
+        <button class="size-btn" onclick="selectColor(this, './photos/img2ringrose.png')">Rose Gold</button>
+      </div>
+
+      <label class="option-label">Ring Size</label>
+      <div class="size-options" id="sizeOptions" style="align-items:center;">
+        <button class="size-btn" onclick="selectSize(this)" disabled>6</button>
+        <button class="size-btn" onclick="selectSize(this)" disabled>7</button>
+        <button class="size-btn" onclick="selectSize(this)" disabled>8</button>
+        <button class="size-btn" onclick="selectSize(this)" disabled>9</button>
+        <button class="size-btn" onclick="selectSize(this)" disabled>10</button>
+        <button class="size-guide-btn" onclick="openSizeGuide()" style="margin-left:12px;">Size Guide</button>
+      </div>
+
+      <label class="option-label">Quantity</label>
+      <div class="qty-selector">
+        <button class="qty-btn" onclick="changeQty(-1)">−</button>
+        <span class="qty-value" id="qtyValue">1</span>
+        <button class="qty-btn" onclick="changeQty(1)">+</button>
+      </div>
+
+      <button class="btn-add-cart" onclick="addToCart()">Add to Cart</button>
+
+      <!-- Accordion -->
+      <div class="product-details">
+        <div class="accordion-item">
+          <button class="accordion-btn" onclick="toggleAccordion(this)">
+            Materials & Craftsmanship
+            <span class="accordion-icon">+</span>
+          </button>
+          <div class="accordion-body">
+            <ul style="list-style:none;padding:0;">
+              <li>· Material: Cubic Zirconia &amp; Silver-Plated Alloy</li>
+              <li>· Metals Type: Silver-Plated Copper Alloy</li>
+              <li>· Setting Material: Zircon</li>
+              <li>· Style: Classic &amp; Minimalist</li>
+              <li>· High-concerned chemical: None</li>
+            </ul>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-btn" onclick="toggleAccordion(this)">
+            Details
+            <span class="accordion-icon">+</span>
+          </button>
+          <div class="accordion-body">
+            <ul style="list-style:none;padding:0;">
+              <li>· Band: Slender silver-plated band</li>
+              <li>· Stone: Radiant Cubic Zirconia cross</li>
+              <li>· Style Profile: Faith-inspired, minimalist, elegant</li>
+              <li>· Compatibility: Everyday wear &amp; special occasions</li>
+            </ul>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-btn" onclick="toggleAccordion(this)">
+            Shipping & Returns
+            <span class="accordion-icon">+</span>
+          </button>
+          <div class="accordion-body">
+            <ul style="list-style:none;padding:0;">
+              <li>· Delivered in 5–10 business days</li>
+              <li>· Returns accepted within 15 days of delivery</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<script>
+/* Size Guide */
+function openSizeGuide() {
+  document.getElementById('sizeGuideModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeSizeGuide() {
+  document.getElementById('sizeGuideModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.getElementById('sizeGuideModal').addEventListener('click', function(e) {
+  if (e.target === this) closeSizeGuide();
+});
+
+/* Color */
+function selectColor(el, imgSrc) {
+  document.querySelectorAll('#colorOptions .size-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  const main = document.getElementById('galleryMain');
+  main.style.opacity = '0';
+  setTimeout(() => { main.src = imgSrc; main.style.opacity = '1'; }, 80);
+  document.querySelectorAll('#sizeOptions .size-btn').forEach(b => b.disabled = false);
+}
+
+/* Size */
+function selectSize(el) {
+  document.querySelectorAll('#sizeOptions .size-btn').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+}
+
+/* Quantity */
+let qty = 1;
+function changeQty(delta) {
+  qty = Math.max(1, qty + delta);
+  document.getElementById('qtyValue').textContent = qty;
+}
+
+/* Accordion */
+function toggleAccordion(btn) {
+  btn.closest('.accordion-item').classList.toggle('open');
+}
+
+/* Cart */
+const cartDrawer  = document.getElementById('cartDrawer');
+const cartOverlay = document.getElementById('cartOverlay');
+const cartClose   = document.getElementById('cartClose');
+const cartBtn     = document.getElementById('cartBtn');
+const cartItemsEl = document.getElementById('cartItems');
+const cartEmpty   = document.getElementById('cartEmpty');
+const cartFooter  = document.getElementById('cartFooter');
+const cartTotal   = document.getElementById('cartTotal');
+const cartBadge   = document.getElementById('cartBadge');
+
+let cart = JSON.parse(localStorage.getItem('sancta_cart') || '[]');
+
+function openCart() {
+  cartDrawer.classList.add('open');
+  cartOverlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeCart() {
+  cartDrawer.classList.remove('open');
+  cartOverlay.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function addToCart() {
+  const size = document.querySelector('#sizeOptions .size-btn.active')?.textContent || '7';
+  const color = document.querySelector('#colorOptions .size-btn.active')?.textContent || 'Silver';
+  const img = color === 'Rose Gold' ? './photos/img2ringrose.png' : color === 'Gold' ? './photos/img3ringgold.png' : './photos/img1ring.png';
+  const quantity = parseInt(document.getElementById('qtyValue').textContent);
+  const existing = cart.find(i => i.name === 'The Ring' && i.size === size && i.color === color);
+
+  if (existing) {
+    existing.qty += quantity;
+  } else {
+    cart.push({ name: 'The Ring', price: 20.99, size, color, qty: quantity, img });
+  }
+
+  saveCart();
+  renderCart();
+  openCart();
+  qty = 1;
+  document.getElementById('qtyValue').textContent = 1;
+}
+
+function removeFromCart(index) {
+  cart.splice(index, 1);
+  saveCart(); renderCart();
+}
+
+function updateCartQty(index, delta) {
+  cart[index].qty = Math.max(1, cart[index].qty + delta);
+  saveCart(); renderCart();
+}
+
+function saveCart() {
+  localStorage.setItem('sancta_cart', JSON.stringify(cart));
+}
+
+function renderCart() {
+  cartItemsEl.innerHTML = '';
+  const total = cart.reduce((sum, i) => sum + i.price * i.qty, 0);
+  const count = cart.reduce((sum, i) => sum + i.qty, 0);
+
+  if (cart.length === 0) {
+    cartEmpty.style.display = 'block';
+    cartFooter.style.display = 'none';
+    cartBadge.style.display = 'none';
+  } else {
+    cartEmpty.style.display = 'none';
+    cartFooter.style.display = 'block';
+    cartBadge.style.display = 'flex';
+    cartBadge.textContent = count;
+    cartTotal.textContent = '$' + total.toFixed(2);
+
+    cart.forEach((item, i) => {
+      cartItemsEl.innerHTML += `
+        <div class="cart-item">
+          <a href="${item.name === 'The Ring' ? 'ring.html' : 'product.html'}"><img src="${item.img}" class="cart-item-img" alt="${item.name}" style="cursor:pointer;"></a>
+          <div class="cart-item-info">
+            <p class="cart-item-name">${item.name}</p>
+            <p class="cart-item-meta">${item.color ? item.color + ' · Size ' + item.size : 'Chain: ' + item.size}</p>
+            <div class="cart-item-row">
+              <div class="cart-qty-selector">
+                <button class="cart-qty-btn" onclick="updateCartQty(${i}, -1)">−</button>
+                <span class="cart-qty-value">${item.qty}</span>
+                <button class="cart-qty-btn" onclick="updateCartQty(${i}, 1)">+</button>
+              </div>
+              <span class="cart-item-price">$${(item.price * item.qty).toFixed(2)}</span>
+            </div>
+            <button class="cart-item-remove" onclick="removeFromCart(${i})">Remove</button>
+          </div>
+        </div>`;
+    });
+  }
+}
+
+renderCart();
+cartBtn.addEventListener('click', openCart);
+cartClose.addEventListener('click', closeCart);
+cartOverlay.addEventListener('click', closeCart);
+</script>
+</body>
+</html>

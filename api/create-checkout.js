@@ -15,24 +15,41 @@ module.exports = async (req, res) => {
       return res.status(400).json({ error: 'Cart is empty' });
     }
 
-    const lineItems = items.map(item => ({
-      price_data: {
-        currency: 'cad',
-        product_data: {
-          name: item.name,
-          description: item.size ? `Chain: ${item.size}` : undefined,
+    const lineItems = items.map(item => {
+      let description;
+      if (item.color) {
+        description = `Color: ${item.color} · Size: ${item.size}`;
+      } else if (item.size) {
+        description = `Chain: ${item.size}`;
+      }
+      return {
+        price_data: {
+          currency: 'cad',
+          product_data: {
+            name: item.name,
+            description,
+          },
+          unit_amount: Math.round(item.price * 100),
         },
-        unit_amount: Math.round(item.price * 100),
-      },
-      quantity: item.qty,
-    }));
+        quantity: item.qty,
+      };
+    });
 
     const origin = req.headers.origin || 'https://sancta.vercel.app';
+
+    // Store cart details in metadata so the webhook can place the right AliExpress order
+    const cartMeta = items.map(i => ({
+      name:  i.name,
+      size:  i.size  || '',
+      color: i.color || '',
+      qty:   i.qty,
+    }));
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: lineItems,
       mode: 'payment',
+      metadata: { cart: JSON.stringify(cartMeta) },
       success_url: `${origin}/success.html?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/checkout.html`,
       shipping_address_collection: {
