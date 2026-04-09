@@ -3,9 +3,4 @@
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/$1" }
   ],
-  "functions": {
-    "api/order-webhook.js": {
-      "bodyParser": false
-    }
-  }
 }

@@ -82,12 +82,20 @@ async function placeAliexpressOrder(session) {
 module.exports = async (req, res) => {
   if (req.method !== 'POST') return res.status(405).end();
 
+  // Collect raw body for Stripe signature verification
+  const rawBody = await new Promise((resolve, reject) => {
+    let data = '';
+    req.on('data', chunk => { data += chunk; });
+    req.on('end', () => resolve(data));
+    req.on('error', reject);
+  });
+
   const sig     = req.headers['stripe-signature'];
   const secret  = process.env.STRIPE_WEBHOOK_SECRET;
   let   event;
 
   try {
-    event = stripe.webhooks.constructEvent(req.body, sig, secret);
+    event = stripe.webhooks.constructEvent(rawBody, sig, secret);
   } catch (err) {
     console.error('Webhook signature error:', err.message);
     return res.status(400).send(`Webhook Error: ${err.message}`);
